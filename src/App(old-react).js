@@ -1,3 +1,6 @@
+import React from 'react'
+import { render } from 'react-dom'
+
 const Pet = props => {
   return React.createElement('div', {}, [
     React.createElement('h1', {}, props.name),
@@ -56,4 +59,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(React.createElement(App), document.getElementById('root'))
+render(React.createElement(App), document.getElementById('root'))
