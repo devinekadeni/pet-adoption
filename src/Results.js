@@ -21,20 +21,31 @@ class Results extends React.Component {
   }
 
   componentDidMount() {
-    petfinder.pet.find({ output: 'full', location: 'Seattle, WA' }).then(data => {
-      let pets
+    this.search()
+  }
 
-      if (data.petfinder.pets && data.petfinder.pets.pet) {
-        if (Array.isArray(data.petfinder.pets.pet)) {
-          pets = data.petfinder.pets.pet
+  search = () => {
+    petfinder.pet
+      .find({
+        output: 'full',
+        location: this.props.searchParams.location,
+        animal: this.props.searchParams.animal,
+        breed: this.props.searchParams.breed,
+      })
+      .then(data => {
+        let pets
+
+        if (data.petfinder.pets && data.petfinder.pets.pet) {
+          if (Array.isArray(data.petfinder.pets.pet)) {
+            pets = data.petfinder.pets.pet
+          } else {
+            pets = [data.petfinder.pets.pet]
+          }
         } else {
-          pets = [data.petfinder.pets.pet]
+          pets = []
         }
-      } else {
-        pets = []
-      }
-      this.setState({ pets })
-    })
+        this.setState({ pets })
+      })
   }
 
   handleTitleClick() {
@@ -44,7 +55,7 @@ class Results extends React.Component {
   render() {
     return (
       <div className="search">
-        <SearchBox />
+        <SearchBox search={this.search} />
         {this.state.pets.map(pet => {
           let breed
 
@@ -71,4 +82,6 @@ class Results extends React.Component {
   }
 }
 
-export default Results
+export default function ResultsWithContext(props) {
+  return <Consumer>{context => <Results {...props} searchParams={context} />}</Consumer>
+}
