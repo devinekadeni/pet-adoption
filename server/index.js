@@ -15,7 +15,7 @@ const app = express()
 
 app.use('/dist', express.static('dist'))
 
-/* using renderToString - OLD way */
+/* Using renderToString - OLD way */
 // app.use((req, res) => {
 //   const reactMarkup = (
 //     <ServerLocation url={req.url}>
@@ -27,7 +27,7 @@ app.use('/dist', express.static('dist'))
 //   res.end()
 // })
 
-/* using renderToNodeStream - LATEST way */
+/* Using renderToNodeStream - LATEST way */
 app.use((req, res) => {
   res.write(parts[0])
 
